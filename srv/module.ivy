@@ -1,0 +1,34 @@
+<ivy-module version="2.0" xmlns:ea="http://www.easyant.org">
+    <info organisation="quartz-ui" module="quartz-ui" revision="0.1" status="integration">
+        <ea:build organisation="org.apache.easyant.buildtypes" module="build-webapp-java" revision="0.9"
+            compile.java.source.version="1.7"
+            compile.java.target.version="1.7"
+            project.war.resources.directory="../ui/dist"
+        />
+    </info>
+    <configurations>
+        <conf name="default"/>
+        <conf name="runtime"/>
+        <conf name="test"/>
+    </configurations>
+    <publications>
+        <artifact type="war"/>
+    </publications>
+    <dependencies>
+        <dependency org="io.restx" name="restx-core" rev="0.31.1" conf="default" />
+        <dependency org="io.restx" name="restx-security-basic" rev="0.31.1" conf="default" />
+        <dependency org="io.restx" name="restx-core-annotation-processor" rev="0.31.1" conf="default" />
+        <dependency org="io.restx" name="restx-factory" rev="0.31.1" conf="default" />
+        <dependency org="io.restx" name="restx-factory-admin" rev="0.31.1" conf="default" />
+        <dependency org="io.restx" name="restx-monitor-admin" rev="0.31.1" conf="default" />
+        <dependency org="io.restx" name="restx-server-jetty" rev="0.31.1" conf="default" />
+        <dependency org="io.restx" name="restx-apidocs" rev="0.31.1" conf="default" />
+        <dependency org="io.restx" name="restx-specs-admin" rev="0.31.1" conf="default" />
+        <dependency org="io.restx" name="restx-admin" rev="0.31.1" conf="default" />
+        <dependency org="org.quartz-scheduler" name="quartz" rev="2.2.1" conf="default" />
+        <dependency org="com.github.kevinsawicki" name="http-request" rev="5.5" conf="default" />
+        <dependency org="ch.qos.logback" name="logback-classic" rev="1.0.13" conf="default" />
+        <dependency org="io.restx" name="restx-specs-tests" rev="0.31.1" conf="test->default" />
+        <dependency org="junit" name="junit" rev="4.11" conf="test->default" />
+    </dependencies>
+</ivy-module>
