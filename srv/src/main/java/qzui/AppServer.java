@@ -13,7 +13,7 @@ import restx.server.JettyWebServer;
  */
 public class AppServer {
     public static final String WEB_INF_LOCATION = "src/main/webapp/WEB-INF/web.xml";
-    public static final String WEB_APP_LOCATION = "src/main/webapp";
+    public static final String WEB_APP_LOCATION = "../ui/app";
 
     public static void main(String[] args) throws Exception {
         int port = Integer.valueOf(Optional.fromNullable(System.getenv("PORT")).or("8080"));
