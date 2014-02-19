@@ -19,9 +19,8 @@ import java.util.*;
         include = JsonTypeInfo.As.PROPERTY,
         property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = DefaultJobDescriptor.class, name = "default"),
-        @JsonSubTypes.Type(value = HttpJobDescriptor.class, name = "http"),
-        @JsonSubTypes.Type(value = LogJobDescriptor.class, name = "log")
+        @JsonSubTypes.Type(value = HttpJobDefinition.HttpJobDescriptor.class, name = "http"),
+        @JsonSubTypes.Type(value = LogJobDefinition.LogJobDescriptor.class, name = "log")
 })
 public abstract class JobDescriptor {
     private String name;
