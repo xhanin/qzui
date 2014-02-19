@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import restx.factory.Component;
 
+import java.util.List;
+
 import static org.quartz.JobBuilder.newJob;
 
 /**
@@ -21,8 +23,8 @@ public class LogJobDefinition extends AbstractJobDefinition {
     }
 
     @Override
-    public JobDescriptor buildDescriptor(JobDetail jobDetail) {
-        return setupDescriptorFromDetail(jobDetail, new LogJobDescriptor());
+    public JobDescriptor buildDescriptor(JobDetail jobDetail, List<? extends Trigger> triggersOfJob) {
+        return setupDescriptorFromDetail(new LogJobDescriptor(), jobDetail, triggersOfJob);
     }
 
     public static class LogJobDescriptor extends JobDescriptor {

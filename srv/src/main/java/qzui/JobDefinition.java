@@ -2,6 +2,9 @@ package qzui;
 
 import org.quartz.Job;
 import org.quartz.JobDetail;
+import org.quartz.Trigger;
+
+import java.util.List;
 
 /**
  * Date: 19/2/14
@@ -9,5 +12,5 @@ import org.quartz.JobDetail;
  */
 public interface JobDefinition {
     boolean acceptJobClass(Class<? extends Job> jobClass);
-    JobDescriptor buildDescriptor(JobDetail jobDetail);
+    JobDescriptor buildDescriptor(JobDetail jobDetail, List<? extends Trigger> triggersOfJob);
 }

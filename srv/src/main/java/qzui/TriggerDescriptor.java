@@ -14,6 +14,14 @@ import static org.quartz.TriggerBuilder.newTrigger;
  * Time: 21:55
  */
 public class TriggerDescriptor {
+    public static TriggerDescriptor buildDescriptor(Trigger trigger) {
+        return new TriggerDescriptor()
+                .setGroup(trigger.getKey().getGroup())
+                .setName(trigger.getKey().getName())
+                .setCron(trigger.getJobDataMap().getString("cron"))
+                .setWhen(trigger.getJobDataMap().getString("when"));
+    }
+
     private String name;
     private String group;
 
@@ -25,11 +33,13 @@ public class TriggerDescriptor {
             return newTrigger()
                     .withIdentity(buildName(), group)
                     .withSchedule(cronSchedule(cron))
+                    .usingJobData("cron", cron)
                     .build();
         } else if (!isNullOrEmpty(when)) {
             if ("now".equalsIgnoreCase(when)) {
                 return newTrigger()
                         .withIdentity(buildName(), group)
+                        .usingJobData("when", when)
                         .build();
             }
 
@@ -37,6 +47,7 @@ public class TriggerDescriptor {
             return newTrigger()
                     .withIdentity(buildName(), group)
                     .startAt(dateTime.toDate())
+                    .usingJobData("when", when)
                     .build();
         }
         throw new IllegalStateException("unsupported trigger descriptor " + this);

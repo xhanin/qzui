@@ -10,6 +10,7 @@ import restx.annotations.RestxResource;
 import restx.factory.Component;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -80,7 +81,8 @@ public class JobResource {
 
             for (JobDefinition definition : definitions) {
                 if (definition.acceptJobClass(jobDetail.getJobClass())) {
-                    return Optional.of(definition.buildDescriptor(jobDetail));
+                    return Optional.of(definition.buildDescriptor(
+                            jobDetail, scheduler.getTriggersOfJob(jobDetail.getKey())));
                 }
             }
 

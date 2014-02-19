@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import restx.factory.Component;
 
+import java.util.List;
+
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static org.quartz.JobBuilder.newJob;
 
@@ -23,8 +25,8 @@ public class HttpJobDefinition extends AbstractJobDefinition {
     }
 
     @Override
-    public JobDescriptor buildDescriptor(JobDetail jobDetail) {
-        HttpJobDescriptor jobDescriptor = setupDescriptorFromDetail(jobDetail, new HttpJobDescriptor());
+    public JobDescriptor buildDescriptor(JobDetail jobDetail, List<? extends Trigger> triggersOfJob) {
+        HttpJobDescriptor jobDescriptor = setupDescriptorFromDetail(new HttpJobDescriptor(), jobDetail, triggersOfJob);
 
         return jobDescriptor
                 .setUrl((String) jobDescriptor.getData().remove("url"))
