@@ -1,7 +1,7 @@
 qzui
 ====
 
-Qzui, a basic REST and Web front end over Quartz Scheduler.
+Qzui, a basic REST and Web front end over [Quartz Scheduler](http://quartz-scheduler.org/).
 
 ## Features
 
@@ -73,6 +73,11 @@ Hack the [TriggerDescriptor](https://github.com/xhanin/qzui/blob/master/srv/src/
 
 The basic UI is developed using AngularJS + TW Boostrap, check [ui/app](https://github.com/xhanin/qzui/tree/master/ui/app).
 
+### Configure
+
+You can setup the quartz configuration as you like, following [Quartz documentation](http://quartz-scheduler.org/documentation/quartz-2.2.x/configuration/)
+We strongly recommend setting up a jobstore if you don't want to lose your jobs at each server restart.
+
 ## Usage
 
 When the server is launched, open your browser at http://localhost:8080/ and you will get the list of jobs.
@@ -126,6 +131,18 @@ Note that jobs MUST have unique names.
   ]
 }
 ```
+
+## Why?
+
+Because I don't like embedding a job scheduler inside my web application server, mainly because scaling a web application server should be done easily by adding new nodes, while a scheduler cluster is much harder to setup and most of the time a single scheduler server can handle tremendous number of jobs, especially if jobs are performed asynchronously.
+
+Therefore I tend to make the web application schedule a job with a REST API call on Qzui, then Qzui call it back when scheduled. This is similar to how [Google App Engine Scheduled Tasks](https://developers.google.com/appengine/docs/java/config/cron) are designed.
+
+And also because it's fun to develop with [RESTX](http://restx/io) + [AngularJS](http://angularjs.org/), and can also be used as an example of how to embed Quartz in a RESTX app (look at [QuartzModule](https://github.com/xhanin/qzui/blob/master/srv/src/main/java/qzui/QuartzModule.java)).
+
+## Production ready?
+
+Quartz is production ready, and it's the component doing the heavy lifting.
 
 ## Screenshots
 
