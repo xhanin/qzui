@@ -2,4 +2,4 @@ logs
 .idea
 *.iml
 target
-
+ui/dist
