@@ -26,7 +26,29 @@ angular.module('myApp.controllers', []).
 
                 });
             }
-        }
+        };
+
+        $scope.isFinished = function(job) {
+            var result = false;
+            angular.forEach(job.triggers, function(trigger) {
+                if(moment().isAfter(moment(trigger.when))) {
+                    result = true;
+                    return false;
+                }
+                return true;
+            });
+            return result;
+        };
+
+        var updateTime = function(){
+            $scope.now = moment().toDate();
+        };
+
+        updateTime();
+
+        window.setInterval(function() {
+            $scope.$apply(updateTime);
+        }, 1000);
   }])
   .controller('HeaderController', ['$scope', '$location', function($scope, $location) {
         $scope.isActive = function (viewLocation) {

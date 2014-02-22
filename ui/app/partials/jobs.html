@@ -1,10 +1,12 @@
 <p>
+<h2>Now</h2>
+{{ now | date:'dd/MM/yyyy HH:mm:ss'}}
 <h2>Jobs</h2>
 Search: <input ng-model="searchText">
 <table class="table">
     <thead><tr><th>Group</th><th>Name</th><th>Triggers</th><th>Actions</th></tr></thead>
     <tbody>
-    <tr ng-repeat="job in jobs | filter:searchText">
+    <tr ng-repeat="job in jobs | filter:searchText" ng-if="!isFinished(job)">
         <td>{{job.group}}</td><td>{{job.name}}</td>
         <td>
             <ul><li ng-repeat="trigger in job.triggers">{{trigger.when | date:'dd/MM/yyyy HH:mm:ss Z'}}</li></ul>
