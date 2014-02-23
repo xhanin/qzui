@@ -2,7 +2,12 @@
 <h2>Now</h2>
 {{ now | date:'dd/MM/yyyy HH:mm:ss'}}
 <h2>Jobs</h2>
-Search: <input ng-model="searchText">
+
+<div class="pull-right">
+    <label>Search : </label>
+    <input class="form-control" ng-model="searchText">
+</div>
+
 <table class="table">
     <thead><tr><th>Group</th><th>Name</th><th>Triggers</th><th>Actions</th></tr></thead>
     <tbody>
