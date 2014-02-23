@@ -28,16 +28,8 @@ angular.module('myApp.controllers', []).
             }
         };
 
-        $scope.isFinished = function(job) {
-            var result = false;
-            angular.forEach(job.triggers, function(trigger) {
-                if(moment().isAfter(moment(trigger.when))) {
-                    result = true;
-                    return false;
-                }
-                return true;
-            });
-            return result;
+        $scope.isTriggered = function(trigger) {
+            return trigger.when && moment().isAfter(moment(trigger.when));
         };
 
         var updateTime = function(){
