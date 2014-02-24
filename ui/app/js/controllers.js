@@ -3,7 +3,8 @@
 /* Controllers */
 
 angular.module('myApp.controllers', []).
-  controller('JobsCtrl', ['$scope', '$http', 'Jobs', function($scope, $http, Jobs) {
+  controller('JobsCtrl', function($scope, $http, $interval) {
+
         $scope.jobs = [];
         $scope.groups = {};
 
@@ -43,10 +44,8 @@ angular.module('myApp.controllers', []).
 
         updateTime();
 
-        window.setInterval(function() {
-            $scope.$apply(updateTime);
-        }, 1000);
-  }])
+        $interval(updateTime, 1000);
+  })
   .controller('HeaderController', ['$scope', '$location', function($scope, $location) {
         $scope.isActive = function (viewLocation) {
             return viewLocation === $location.path();
