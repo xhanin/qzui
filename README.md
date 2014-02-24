@@ -82,7 +82,7 @@ We strongly recommend setting up a jobstore if you don't want to lose your jobs 
 
 When the server is launched, open your browser at http://localhost:8080/ and you will get the list of jobs.
 
-To create a job use the REST API: do a POST on http://localhost:8080/groups/:group/jobs
+To create a job use the REST API: do a POST on http://localhost:8080/api/groups/:group/jobs
 
 To do so you can use the RESTX API console (login admin/juma) at http://127.0.0.1:8080/api/@/ui/api-docs/#/
 
