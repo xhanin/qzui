@@ -1,13 +1,32 @@
 <p>
+<h2>Now</h2>
+{{ now | date:'dd/MM/yyyy HH:mm:ss'}}
+
 <h2>Jobs</h2>
-Search: <input ng-model="searchText">
+<div class="pull-right">
+    <label>Search : </label>
+    <input class="form-control" ng-model="searchText"/>
+</div>
+
+<div class="pull-left">
+    <div ng-repeat="(group, isActive) in groups">
+        <input type="checkbox" ng-model="groups[group]" />
+        <label>{{ group }}</label>
+    </div>
+</div>
+
 <table class="table">
     <thead><tr><th>Group</th><th>Name</th><th>Triggers</th><th>Actions</th></tr></thead>
     <tbody>
-    <tr ng-repeat="job in jobs | filter:searchText">
+    <tr ng-repeat="job in jobs | jobs:searchText:groups">
         <td>{{job.group}}</td><td>{{job.name}}</td>
         <td>
-            <ul><li ng-repeat="trigger in job.triggers">{{trigger.when | date:'dd/MM/yyyy HH:mm:ss Z'}}</li></ul>
+            <ul>
+                <li ng-repeat="trigger in job.triggers" ng-class="{ 'triggered' : isDone(trigger) }">
+                    <span ng-if="trigger.when">{{ trigger.when | date:'dd/MM/yyyy HH:mm:ss Z' }}</span>
+                    <span ng-if="trigger.cron">{{ trigger.cron }}</span>
+                </li>
+            </ul>
         </td>
         <td><a href="#" ng-click="delete(job)">Delete</a></td>
     </tr>
