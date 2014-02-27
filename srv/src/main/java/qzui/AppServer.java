@@ -16,7 +16,7 @@ public class AppServer {
     public static final String WEB_APP_LOCATION = "../ui/app";
 
     public static void main(String[] args) throws Exception {
-        int port = Integer.valueOf(Optional.fromNullable(System.getenv("PORT")).or("8080"));
+        int port = Integer.valueOf(Optional.fromNullable(System.getenv("QZUI_PORT")).or("8080"));
         WebServer server = new JettyWebServer(WEB_INF_LOCATION, WEB_APP_LOCATION, port, "0.0.0.0");
 
         /*
