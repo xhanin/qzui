@@ -97,9 +97,11 @@ public class HttpJobDefinition extends AbstractJobDefinition {
             String url = jobDataMap.getString("url");
             String method = jobDataMap.getString("method");
             HttpRequest request = new HttpRequest(url, method);
+            String body = "";
             if (!isNullOrEmpty(jobDataMap.getString("body"))) {
-                request.send(jobDataMap.getString("body"));
+                body = jobDataMap.getString("body");
             }
+            request.send(body);
 
             int code = request.code();
             String responseBody = request.body();
