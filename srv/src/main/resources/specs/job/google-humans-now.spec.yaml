@@ -1,0 +1,33 @@
+title: Adding google humans GET right now
+given:
+  - time: 2014-04-03T09:45:44.830+02:00
+wts:
+  - when: |
+       POST groups/examples/jobs
+       Cookie: RestxSession-quartz-ui={"_expires":"2014-05-03T09:45:44.830+02:00","principal":"admin","sessionKey":"baf3364a-4130-4bfc-9477-19ffc5d383c6"}; RestxSessionSignature-quartz-ui=lpRvMqR84+BAJKGNguId7NfKxhU=
+
+        {
+          "type":"http",
+          "name":"google-humans-now",
+          "method":"GET",
+          "url":"http://www.google.com/humans.txt",
+          "triggers": [
+                {"when":"now"}
+          ]
+        }
+    then: |
+        {
+          "type" : "http",
+          "name" : "google-humans-now",
+          "group" : "examples",
+          "data" : { },
+          "url" : "http://www.google.com/humans.txt",
+          "method" : "GET",
+          "body" : null,
+          "triggers" : [ {
+            "name" : null,
+            "group" : null,
+            "when" : "now",
+            "cron" : null
+          } ]
+        }
