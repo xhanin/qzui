@@ -1,0 +1,33 @@
+title: Adding google humans GET on fixed date
+given:
+  - time: 2014-04-03T09:45:14.806+02:00
+wts:
+  - when: |
+       POST groups/examples/jobs
+       Cookie: RestxSession-quartz-ui={"_expires":"2014-05-03T09:45:14.806+02:00","principal":"admin","sessionKey":"baf3364a-4130-4bfc-9477-19ffc5d383c6"}; RestxSessionSignature-quartz-ui=NBR8FTwLtMdklFFw8AkOkvNXOGU=
+
+        {
+          "type":"http",
+          "name":"google-humans-fixed",
+          "method":"GET",
+          "url":"http://www.google.com/humans.txt",
+          "triggers": [
+                {"when":"2014-11-05T13:15:30Z"}
+          ]
+        }
+    then: |
+        {
+          "type" : "http",
+          "name" : "google-humans-fixed",
+          "group" : "examples",
+          "data" : { },
+          "url" : "http://www.google.com/humans.txt",
+          "method" : "GET",
+          "body" : null,
+          "triggers" : [ {
+            "name" : null,
+            "group" : null,
+            "when" : "2014-11-05T13:15:30Z",
+            "cron" : null
+          } ]
+        }
