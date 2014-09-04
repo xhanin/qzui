@@ -1,4 +1,4 @@
-package qzui;
+package qzui.domain;
 
 import org.joda.time.DateTime;
 import org.quartz.Trigger;

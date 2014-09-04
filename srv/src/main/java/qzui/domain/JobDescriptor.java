@@ -1,4 +1,4 @@
-package qzui;
+package qzui.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

@@ -1,4 +1,4 @@
-package qzui;
+package qzui.domain;
 
 import org.quartz.*;
 import org.slf4j.Logger;

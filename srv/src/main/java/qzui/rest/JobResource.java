@@ -1,8 +1,10 @@
-package qzui;
+package qzui.rest;
 
 import com.google.common.base.Optional;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
+import qzui.domain.JobDefinition;
+import qzui.domain.JobDescriptor;
 import restx.annotations.DELETE;
 import restx.annotations.GET;
 import restx.annotations.POST;
@@ -10,7 +12,6 @@ import restx.annotations.RestxResource;
 import restx.factory.Component;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 /**

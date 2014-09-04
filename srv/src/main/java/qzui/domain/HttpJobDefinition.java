@@ -1,4 +1,4 @@
-package qzui;
+package qzui.domain;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import org.quartz.*;
