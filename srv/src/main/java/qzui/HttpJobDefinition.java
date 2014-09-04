@@ -39,6 +39,7 @@ public class HttpJobDefinition extends AbstractJobDefinition {
         private String url;
         private String method = "POST";
         private String body;
+        private String contentType;
 
         public String getUrl() {
             return url;
@@ -50,6 +51,10 @@ public class HttpJobDefinition extends AbstractJobDefinition {
 
         public String getBody() {
             return body;
+        }
+
+        public String getContentType() {
+            return contentType;
         }
 
         public HttpJobDescriptor setBody(final String body) {
@@ -67,12 +72,18 @@ public class HttpJobDefinition extends AbstractJobDefinition {
             return this;
         }
 
+        public HttpJobDescriptor setContentType(final String contentType) {
+            this.contentType = contentType;
+            return this;
+        }
+
         @Override
         public JobDetail buildJobDetail() {
             JobDataMap dataMap = new JobDataMap(getData());
             dataMap.put("url", url);
             dataMap.put("method", method);
             dataMap.put("body", body);
+            dataMap.put("contentType", contentType);
             return newJob(HttpJob.class)
                     .withIdentity(getName(), getGroup())
                     .usingJobData(dataMap)
@@ -85,6 +96,7 @@ public class HttpJobDefinition extends AbstractJobDefinition {
                     "url='" + url + '\'' +
                     ", method='" + method + '\'' +
                     ", body='" + body + '\'' +
+                    ", contentType='" + contentType + '\'' +
                     '}';
         }
 
@@ -100,6 +112,10 @@ public class HttpJobDefinition extends AbstractJobDefinition {
             String body = "";
             if (!isNullOrEmpty(jobDataMap.getString("body"))) {
                 body = jobDataMap.getString("body");
+            }
+            String contentType = jobDataMap.getString("contentType");
+            if (!isNullOrEmpty(contentType)) {
+                request.contentType(contentType);
             }
             request.send(body);
 
