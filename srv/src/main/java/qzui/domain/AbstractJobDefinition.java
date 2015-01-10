@@ -1,4 +1,4 @@
-package qzui;
+package qzui.domain;
 
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
