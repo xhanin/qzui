@@ -1,6 +1,7 @@
 package qzui.domain;
 
 import com.github.kevinsawicki.http.HttpRequest;
+import com.google.common.base.Optional;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import static org.quartz.JobBuilder.newJob;
  */
 @Component
 public class HttpJobDefinition extends AbstractJobDefinition {
+
     private static final Logger logger = LoggerFactory.getLogger(HttpJobDefinition.class);
 
     @Override
@@ -42,6 +44,8 @@ public class HttpJobDefinition extends AbstractJobDefinition {
         private String contentType;
         private String login;
         private String pwdHash;
+
+        private HttpConfiguration httpConfiguration;
 
         public String getUrl() {
             return url;
@@ -97,8 +101,18 @@ public class HttpJobDefinition extends AbstractJobDefinition {
             return this;
         }
 
+        public HttpConfiguration getHttpConfiguration() {
+            return httpConfiguration;
+        }
+
+        public HttpJobDescriptor setHttpConfiguration(final HttpConfiguration httpConfiguration) {
+            this.httpConfiguration = httpConfiguration;
+            return this;
+        }
+
         @Override
         public JobDetail buildJobDetail() {
+
             JobDataMap dataMap = new JobDataMap(getData());
             dataMap.put("url", url);
             dataMap.put("method", method);
@@ -106,10 +120,27 @@ public class HttpJobDefinition extends AbstractJobDefinition {
             dataMap.put("contentType", contentType);
             dataMap.put("login", login);
             dataMap.put("pwd", pwdHash);
+
+            configure(dataMap);
+
             return newJob(HttpJob.class)
                     .withIdentity(getName(), getGroup())
                     .usingJobData(dataMap)
                     .build();
+        }
+
+        private void configure(JobDataMap dataMap) {
+            Optional<String> trustAllCerts;
+            Optional<String> trustAllHosts;
+            if (getHttpConfiguration() == null) {
+                trustAllCerts = Optional.fromNullable(System.getProperty(HttpConfiguration.TRUST_ALL_CERTS_PROPERTY));
+                trustAllHosts = Optional.fromNullable(System.getProperty(HttpConfiguration.TRUST_ALL_HOSTS_PROPERTY));
+            } else {
+                trustAllCerts = Optional.of(Boolean.toString(getHttpConfiguration().isTrustAllCerts()));
+                trustAllHosts = Optional.of(Boolean.toString(getHttpConfiguration().isTrustAllHosts()));
+            }
+            dataMap.put(HttpConfiguration.TRUST_ALL_CERTS_FIELD, trustAllCerts.or(Boolean.toString(false)));
+            dataMap.put(HttpConfiguration.TRUST_ALL_HOSTS_FIELD, trustAllHosts.or(Boolean.toString(false)));
         }
 
         @Override
@@ -125,6 +156,7 @@ public class HttpJobDefinition extends AbstractJobDefinition {
     }
 
     public static class HttpJob implements Job {
+
         @Override
         public void execute(JobExecutionContext context) throws JobExecutionException {
 
@@ -140,12 +172,22 @@ public class HttpJobDefinition extends AbstractJobDefinition {
 
             setContentType(jobDataMap, request);
             setCrendentials(jobDataMap, request);
+            setSecurityParams(jobDataMap, request);
 
             request.send(body);
             int code = request.code();
             String responseBody = request.body();
 
             logger.info("{} {} => {}\n{}", method, url, code, responseBody);
+        }
+
+        private void setSecurityParams(JobDataMap jobDataMap, HttpRequest request) {
+            if (jobDataMap.getBooleanFromString(HttpConfiguration.TRUST_ALL_HOSTS_FIELD)) {
+                request.trustAllHosts();
+            }
+            if (jobDataMap.getBooleanFromString(HttpConfiguration.TRUST_ALL_CERTS_FIELD)) {
+                request.trustAllCerts();
+            }
         }
 
         private void setCrendentials(JobDataMap jobDataMap, HttpRequest request) {
