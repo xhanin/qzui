@@ -133,14 +133,14 @@ public class HttpJobDefinition extends AbstractJobDefinition {
             Optional<String> trustAllCerts;
             Optional<String> trustAllHosts;
             if (getHttpConfiguration() == null) {
-                trustAllCerts = Optional.fromNullable(System.getProperty(HttpConfiguration.TRUST_ALL_CERTS));
-                trustAllHosts = Optional.fromNullable(System.getProperty(HttpConfiguration.TRUST_ALL_HOSTS));
+                trustAllCerts = Optional.fromNullable(System.getProperty(HttpConfiguration.TRUST_ALL_CERTS_PROPERTY));
+                trustAllHosts = Optional.fromNullable(System.getProperty(HttpConfiguration.TRUST_ALL_HOSTS_PROPERTY));
             } else {
                 trustAllCerts = Optional.of(Boolean.toString(getHttpConfiguration().isTrustAllCerts()));
                 trustAllHosts = Optional.of(Boolean.toString(getHttpConfiguration().isTrustAllHosts()));
             }
-            dataMap.put(HttpConfiguration.TRUST_ALL_CERTS, trustAllCerts.or(Boolean.toString(false)));
-            dataMap.put(HttpConfiguration.TRUST_ALL_HOSTS, trustAllHosts.or(Boolean.toString(false)));
+            dataMap.put(HttpConfiguration.TRUST_ALL_CERTS_FIELD, trustAllCerts.or(Boolean.toString(false)));
+            dataMap.put(HttpConfiguration.TRUST_ALL_HOSTS_FIELD, trustAllHosts.or(Boolean.toString(false)));
         }
 
         @Override
@@ -182,10 +182,10 @@ public class HttpJobDefinition extends AbstractJobDefinition {
         }
 
         private void setSecurityParams(JobDataMap jobDataMap, HttpRequest request) {
-            if (jobDataMap.getBooleanFromString(HttpConfiguration.TRUST_ALL_HOSTS)) {
+            if (jobDataMap.getBooleanFromString(HttpConfiguration.TRUST_ALL_HOSTS_FIELD)) {
                 request.trustAllHosts();
             }
-            if (jobDataMap.getBooleanFromString(HttpConfiguration.TRUST_ALL_CERTS)) {
+            if (jobDataMap.getBooleanFromString(HttpConfiguration.TRUST_ALL_CERTS_FIELD)) {
                 request.trustAllCerts();
             }
         }
