@@ -78,6 +78,18 @@ The basic UI is developed using AngularJS + TW Boostrap, check [ui/app](https://
 You can setup the quartz configuration as you like, following [Quartz documentation](http://quartz-scheduler.org/documentation/quartz-2.2.x/configuration/)
 We strongly recommend setting up a jobstore if you don't want to lose your jobs at each server restart.
 
+#### HTTP configuration
+
+Some specific HTTP configuration flags could be set. Two ways to do that :
+* Job specific : fill a configuration object (contained into a job descriptor)
+* Globally : define java properties set on Qzui runtime
+
+```
+-Dhttp.ssl.trustAllCerts=true -Dhttp.ssl.trustAllHosts=true
+```
+
+Note that the specific configuration overrides the global one.
+
 ## Usage
 
 When the server is launched, open your browser at http://localhost:8080/ and you will get the list of jobs.
@@ -129,6 +141,23 @@ Note that jobs MUST have unique names.
   "triggers": [
         {"cron":"0/2 * * * * ?"}
   ]
+}
+```
+
+#### HTTP Job, scheduled using cron syntax, with HTTP specific configuration
+```
+{
+  "type":"http",
+  "name":"google-humans",
+  "method":"GET",
+  "url":"http://www.google.com/humans.txt",
+  "triggers": [
+        {"cron":"0/2 * * * * ?"}
+  ],
+  "httpConfiguration": {
+        "trustAllHosts": true,
+        "trustAllCerts": true,
+  }
 }
 ```
 
