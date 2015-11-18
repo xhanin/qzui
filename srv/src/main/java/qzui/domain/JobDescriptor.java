@@ -20,7 +20,8 @@ import java.util.*;
         property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = HttpJobDefinition.HttpJobDescriptor.class, name = "http"),
-        @JsonSubTypes.Type(value = LogJobDefinition.LogJobDescriptor.class, name = "log")
+        @JsonSubTypes.Type(value = LogJobDefinition.LogJobDescriptor.class, name = "log"),
+        @JsonSubTypes.Type(value = ShellJobDefinition.ShellJobDescriptor.class, name = "shell")
 })
 public abstract class JobDescriptor {
     private String name;
