@@ -1,3 +1,5 @@
+
+
 qzui
 ====
 
@@ -86,7 +88,7 @@ To create a job use the REST API: do a POST on http://localhost:8080/api/groups/
 
 To do so you can use the RESTX API console (login admin/juma) at http://127.0.0.1:8080/api/@/ui/api-docs/#/
 
-Note that jobs MUST have unique names.
+Note that jobs MUST have unique names within a group.
 
 ### Examples:
 
@@ -149,6 +151,3 @@ Quartz is production ready, and it's the component doing the heavy lifting.
 ![Qzui UI](https://i.cloudup.com/rA5oWU9hqd-2000x2000.png)
 
 ![Qzui post jobs](https://i.cloudup.com/ZCkwMOtVpr-3000x3000.png)
-
-
-
